@@ -7,8 +7,10 @@ import path from 'node:path';
 const skillDir = process.argv[2] || path.resolve(import.meta.dirname, '..');
 const requiredFiles = [
   'SKILL.md',
+  'README.md',
   'README.en.md',
   'README.zh-CN.md',
+  '.gitattributes',
   'examples/AGENTS.md',
   'examples/safe-replace.mjs',
   'checklists/windows-safe-checklist.md',
