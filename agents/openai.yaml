@@ -1,0 +1,4 @@
+interface:
+  display_name: "WinLean Coding"
+  short_description: "Windows-safe coding with lean context, dependency decisions, and small verified patches."
+  default_prompt: "Use WinLean Coding: read less, reuse more, patch smaller, verify changes."
