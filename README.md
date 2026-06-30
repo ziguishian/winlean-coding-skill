@@ -5,7 +5,7 @@
 <h1 align="center">WinLean Coding Skill</h1>
 
 <p align="center">
-  <strong>Windows-safe coding agents with leaner context, dependency scouting, and smaller verified patches.</strong>
+  <strong>Turn your AI coding agent into a Windows-aware, token-lean programmer.</strong>
 </p>
 
 <p align="center">
@@ -28,22 +28,43 @@
 
 ---
 
-WinLean is a reusable Coding Skill for AI code agents working in real Windows repositories: PowerShell, mixed encodings, CRLF/LF, Chinese/emoji/Markdown/prompt files, generated directories, dependency sprawl, and token-heavy overbuilding.
+WinLean is not another Windows setup guide. It is a reusable Coding Skill that changes how an AI agent behaves inside Windows-heavy repositories.
 
 > Clear first, then act. Read less. Patch smaller. Reuse more. Verify every change.
 
-## Why It Exists
+## The Idea
 
-AI agents fail in Windows repositories for two boring reasons: brittle shell behavior and oversized implementation habits.
+The inspiration is simple: Windows agents often fail commands, corrupt text, read too much context, and hand-write code that should have been reused. Instead of explaining those rules in every prompt, put the operating discipline into a skill.
 
-WinLean turns both into a disciplined workflow:
+WinLean makes the agent do four things before it writes code:
 
-1. Diagnose the OS, shell, encoding, newline, and text risk.
-2. Read only files that can change the implementation decision.
-3. Check framework capabilities, public libraries, existing dependencies, and project utilities before custom code.
-4. Plan the smallest patch.
-5. Patch safely, especially around UTF-8 and CRLF/LF.
-6. Review the diff and run the smallest useful verification.
+1. Clear the environment: OS, shell, paths, encoding, newline risk.
+2. Control context: avoid dependency/generated folders and open only files that matter.
+3. Reuse first: framework features, public libraries, existing dependencies, project utilities.
+4. Patch small: local changes, UTF-8-safe edits, minimal verification, diff review.
+
+## What WinLean Gives Your Project
+
+| Project pain | What WinLean makes the agent do | Practical benefit |
+|---|---|---|
+| PowerShell one-liners break or behave differently from Unix shells | Detect Windows shells and enter Windows Safe Mode for risky text edits | Fewer failed commands and fewer uncontrolled file edits |
+| Chinese, emoji, Markdown, prompts, or i18n files get corrupted | Avoid piping non-ASCII text through PowerShell; use patch edits or explicit UTF-8 I/O | Less mojibake, safer prompt/docs/localization changes |
+| Exact replacements fail because of CRLF/LF | Treat replacements as newline-sensitive and preserve file style | Fewer broken patches and retry loops |
+| Agents read `node_modules`, `dist`, `.next`, coverage, caches, or binaries | Gate context before reading; prefer manifests, entry points, related source, nearby tests | Lower input tokens and less distraction |
+| Agents write large native implementations for solved problems | Run Dependency Scout before custom code, including Public Library Scout for common domains | Shorter, safer, more maintainable solutions |
+| Small tasks become helper/type/service sprawl | Prefer one-file local patches and no future-facing abstractions | Cleaner diffs and easier reviews |
+| The final answer hides what was reused or avoided | Require a final report with Changed, Dependency Decision, Reused, Avoided, Verified, Risks | Better reviewability and accountability |
+
+## Skill + AGENTS.md
+
+WinLean is designed as two layers:
+
+| Layer | Role |
+|---|---|
+| `SKILL.md` | Runtime method: how the agent should reason, edit, reuse, and verify |
+| `examples/AGENTS.md` | Project memory: copy it into a repository root so the agent remembers WinLean rules every time |
+
+Use the skill when you want the agent to follow the full workflow for a task. Use `AGENTS.md` when you want a project to keep the same guardrails across future sessions.
 
 ## Direct Use
 
@@ -75,6 +96,12 @@ Then start a new Codex session:
 Use winlean-coding full. Read only relevant files, check dependency options before custom code, make the smallest Windows-safe patch, and verify the diff.
 ```
 
+For a project-wide default, copy the example policy:
+
+```text
+Copy examples/AGENTS.md into your project root as AGENTS.md.
+```
+
 ## Modes
 
 | mode | use when | behavior |
@@ -87,19 +114,21 @@ Use winlean-coding full. Read only relevant files, check dependency options befo
 
 [Ponytail](https://github.com/DietrichGebert/ponytail) is a strong lean-coding project with broad agent/plugin coverage and a larger public benchmark. WinLean is narrower by design: it focuses on Windows-safe coding, context discipline, dependency decisions, and UTF-8/LF-safe patching for Codex-style coding agents.
 
-### Token Smoke Result
+### Internal n=1 Smoke Result
+
+This is a local Codex CLI smoke run, not a Ponytail official benchmark and not a universal claim. The Ponytail arm used a compact Ponytail-style prompt, not Ponytail's full public evaluation harness. The result is useful as a signal, not proof.
 
 Same Codex CLI project-build smoke task, same model, same prompt shape, measured on 2026-06-30. Lower is better for token metrics.
 
-| metric | Ponytail | WinLean | result |
+| metric | Ponytail-style prompt | WinLean prompt | result |
 |---|---:|---:|---|
 | processed input+output | 123,027 | 116,387 | WinLean used 5.4% fewer |
 | uncached+output | 18,067 | 16,419 | WinLean used 9.1% fewer |
 | output tokens | 6,802 | 6,067 | WinLean used 10.8% fewer |
 | reasoning tokens | 3,496 | 2,251 | WinLean used 35.6% fewer |
-| generated LOC | 305 | 344 | Ponytail generated fewer LOC |
+| generated LOC | 305 | 344 | Ponytail-style generated fewer LOC |
 
-This is an `n=1` smoke result, not a universal benchmark claim. Ponytail's public benchmark reports strong aggregate savings versus a no-skill baseline; WinLean's measured advantage here is token thrift on this Codex build task plus Windows-specific guardrails.
+The honest takeaway: Ponytail is excellent at general code minimalism. WinLean's advantage is a more specific operating model for Windows repositories: avoid fragile commands, avoid bad text edits, read less irrelevant context, make dependency decisions explicit, then patch and verify narrowly.
 
 ### Practical Difference
 

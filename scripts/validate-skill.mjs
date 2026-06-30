@@ -28,7 +28,10 @@ const requiredBinaryFiles = [
 const requiredReadmeText = [
   'assets/winlean-logo.png',
   'assets/winlean-banner.png',
+  'What WinLean Gives Your Project',
+  'Skill + AGENTS.md',
   'Compared With Ponytail',
+  'Internal n=1 Smoke Result',
   'Star History',
   'Install Into Codex',
 ];
